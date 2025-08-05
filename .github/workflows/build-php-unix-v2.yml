@@ -27,8 +27,8 @@ jobs:
         combination:
           # - minimal
           # - bulk
-          # - common
-          - gnu-bulk
+          # - gnu-bulk
+          - common
         exclude:
           - { runner: "ubuntu-latest", combination: "gnu-bulk" }
           - { runner: "ubuntu-24.04-arm", combination: "gnu-bulk" }
