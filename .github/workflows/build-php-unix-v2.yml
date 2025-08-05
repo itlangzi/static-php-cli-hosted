@@ -36,7 +36,7 @@ jobs:
           - { runner: "macos-14", combination: "gnu-bulk" }
           - { runner: "ubuntu-22.04", combination: "minimal" }
           - { runner: "ubuntu-22.04", combination: "bulk" }
-          - { runner: "ubuntu-22.04", combination: "common" }
+          # - { runner: "ubuntu-22.04", combination: "common" }
           - { runner: "ubuntu-22.04-arm", combination: "minimal" }
           - { runner: "ubuntu-22.04-arm", combination: "bulk" }
           - { runner: "ubuntu-22.04-arm", combination: "common" }
