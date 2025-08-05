@@ -1,4 +1,4 @@
-name: Build Self-Hosted PHP Binary v2 (Unix)
+name: Build Self-Hosted PHP8.1 Binary (Unix)
 
 on:
   workflow_dispatch:
