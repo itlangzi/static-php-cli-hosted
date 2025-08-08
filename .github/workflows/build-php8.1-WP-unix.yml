@@ -1,4 +1,4 @@
-name: Build Self-Hosted WP PHP8.1 WP Binary (Unix)
+name: Build Self-Hosted PHP8.1 WP Binary (Unix)
 
 on:
   workflow_dispatch:
