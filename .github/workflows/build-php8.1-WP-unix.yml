@@ -150,7 +150,7 @@ jobs:
             UPX=--with-upx-pack
           fi
           
-          ${{ steps.process-env.outputs.CMD }} build --build-cli --build-micro --build-fpm ${{ steps.process-env.outputs.EXTENSIONS }} --debug $UPX
+          ${{ steps.process-env.outputs.CMD }} build --build-cli --build-micro --build-fpm ${{ steps.process-env.outputs.EXTENSIONS }} --with-libs="freetype" --debug $UPX
 
           # Copy out from buildroot, because docker build has different permission
           mkdir -p tmp_dist/
