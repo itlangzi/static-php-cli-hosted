@@ -38,7 +38,7 @@ jobs:
                 Add-Content -Path $env:GITHUB_OUTPUT -Value "DEPLOY_TARGET=${{ secrets.DEPLOY_SERVER_TARGET_WINDOWS_SPC_MAX }}"
             }
             "spc-wp" {
-                Add-Content -Path $env:GITHUB_OUTPUT -Value "EXTENSIONS=apcu,bcmath,ctype,curl,dom,exif,fileinfo,filter,gd,iconv,mbstring,mysqli,mysqlnd,opcache,openssl,phar,simplexml,tokenizer,uuid,zip,zlib"
+                Add-Content -Path $env:GITHUB_OUTPUT -Value "EXTENSIONS=EXTENSIONS=apcu,bcmath,ctype,curl,dom,exif,fileinfo,filter,gd,iconv,mbstring,mysqli,mysqlnd,opcache,openssl,phar,simplexml,tokenizer,uuid,zip,zlib,shmop,intl,igbinary,sodium,xmlreader"
                 Add-Content -Path $env:GITHUB_OUTPUT -Value "DEPLOY_TARGET=${{ secrets.DEPLOY_SERVER_TARGET_WINDOWS_SPC_MAX }}"
             }
           }  
