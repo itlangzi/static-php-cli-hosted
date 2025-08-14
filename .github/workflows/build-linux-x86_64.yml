@@ -56,7 +56,8 @@ jobs:
 
       # If there's no Composer cache, install dependencies
       - if: steps.cache-composer-deps.outputs.cache-hit != 'true'
-        run: composer update --no-dev --classmap-authoritative
+        # run: composer update --no-dev --classmap-authoritative
+        run: composer update -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --no-dev
 
       - name: Generate hashed key for download cache
         run: |
