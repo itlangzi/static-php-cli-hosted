@@ -70,7 +70,7 @@ jobs:
 
       - name: Generate hashed key for download cache
         run: |
-          INPUT_HASH=$(echo "${{ runner.os }}-${{ inputs.version }}-${{ inputs.extensions }}-${{ inputs.libs }}-${{ inputs.build-targets }}" | sha256sum | awk '{print $1}')
+          INPUT_HASH=$(echo "${{ runner.os }}-${{ inputs.version }}-${{ inputs.extensions }}-${{ inputs.libs }}-${{ inputs.build-targets }}-${{ inputs.override }}" | sha256sum | awk '{print $1}')
           echo "INPUT_HASH=${INPUT_HASH}" >> $GITHUB_ENV
 
       # Cache downloaded source
