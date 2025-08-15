@@ -149,6 +149,11 @@ jobs:
             UPX=--with-upx-pack
           fi
 
+          if [[ -n "${{ inputs.SPC_BUILD_FRANKENPHP }}" ]]; then
+            echo "Detected FrankenPHP target, forcing install go-xcaddy"
+            ${{ env.CMD }} install-pkg go-xcaddy
+          fi
+
           ${{ env.CMD }} build ${{ inputs.extensions }} \
             ${{ env.SPC_ENABLE_ZTS }} \
             ${{ env.SPC_WITH_LIBS }} \
