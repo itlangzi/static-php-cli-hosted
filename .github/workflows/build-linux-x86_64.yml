@@ -49,10 +49,10 @@ on:
         description: enable thread safety (zts)
         type: boolean
         default: false
-      debug:
-        description: enable debug logs
-        type: boolean
-        default: true
+      # debug:
+      #   description: enable debug logs
+      #   type: boolean
+      #   default: true
       upx:
         description: enable upx
         type: boolean
@@ -91,9 +91,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [[ "${{ inputs.debug }}" = "true" ]]; then
-            echo "SPC_BUILD_DEBUG=--debug" >> $GITHUB_ENV
-          fi
+          echo "SPC_BUILD_DEBUG=--debug" >> $GITHUB_ENV
+          # if [[ "${{ inputs.debug }}" = "true" ]]; then
+          #   echo "SPC_BUILD_DEBUG=--debug" >> $GITHUB_ENV
+          # fi
           if [[ "${{ inputs.prefer-pre-built }}" = "true" ]]; then
             echo "SPC_PRE_BUILT=--prefer-pre-built" >> $GITHUB_ENV
           fi
