@@ -134,17 +134,13 @@ jobs:
         if: steps.cache-download.outputs.cache-hit != 'true'
         run: |
           set -euo pipefail
-          OVERRIDE=""
-          if [[ -n "${{ inputs.override }}" ]]; then
-            OVERRIDE=${{ inputs.override }}
-          fi
           CACHE_API_EXEC=yes 
           ${{ env.CMD }} download \
             --with-php=${{ inputs.version }} \
             --for-extensions=${{ inputs.extensions }} \
             ${{ env.SPC_BUILD_DEBUG }} \
             ${{ env.SPC_PRE_BUILT }} \
-            $OVERRIDE \
+            ${{ inputs.override }} \
             --retry=5
 
       # Run build command
