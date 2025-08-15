@@ -87,14 +87,18 @@ jobs:
 
           # Build targets
           IFS=',' read -ra BUILD_TARGETS <<< "${{ inputs.build-targets }}"
+          # 标记是否包含frankenphp
+          has_frankenphp=0
           for target in "${BUILD_TARGETS[@]}"; do
             case $target in
               cli) echo "SPC_BUILD_CLI=--build-cli" >> $GITHUB_ENV ;;
               micro) echo "SPC_BUILD_MICRO=--build-micro" >> $GITHUB_ENV ;;
               fpm) echo "SPC_BUILD_FPM=--build-fpm" >> $GITHUB_ENV ;;
               embed) echo "SPC_BUILD_EMBED=--build-embed" >> $GITHUB_ENV ;;
-              frankenphp) echo "SPC_BUILD_FRANKENPHP=--build-frankenphp" >> $GITHUB_ENV ;;
-              # 未知目标仅警告，不触发--build-all
+              frankenphp) 
+                echo "SPC_BUILD_FRANKENPHP=--build-frankenphp" >> $GITHUB_ENV 
+                has_frankenphp=1
+                ;;
               *) echo "Warning: Unknown build target '$target', skipped" >&2 ;;
             esac
           done
@@ -105,9 +109,16 @@ jobs:
           if [[ "${{ inputs.prefer-pre-built }}" = "true" ]]; then
             echo "SPC_PRE_BUILT=--prefer-pre-built" >> $GITHUB_ENV
           fi
-          if [[ "${{ inputs.zts }}" = "true" ]]; then
+
+          if [[ $has_frankenphp -eq 1 ]]; then
+            echo "Detected FrankenPHP target, forcing ZTS enabled"
             echo "SPC_ENABLE_ZTS=--enable-zts" >> $GITHUB_ENV
+          else
+            if [[ "${{ inputs.zts }}" = "true" ]]; then
+              echo "SPC_ENABLE_ZTS=--enable-zts" >> $GITHUB_ENV
+            fi
           fi
+          
           if [[ -n "${{ inputs.libs }}" ]]; then
             echo "SPC_WITH_LIBS=--with-libs=${{ inputs.libs }}" >> $GITHUB_ENV
           fi
