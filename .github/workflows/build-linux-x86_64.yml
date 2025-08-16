@@ -52,18 +52,36 @@ on:
         description: enable upx
         type: boolean
         default: true
+      openssl1x:
+        description: use openssl 1.1.1w
+        type: boolean
+        default: true
 
 jobs:
   build:
     name: Build PHP v${{ inputs.version }} on Linux x86_64
     runs-on: ${{ inputs.os }}
     steps:
-      - name: Checkout repository
+      - name: Checkout crazywhalecc/static-php-cli repository
         if: github.repository != 'crazywhalecc/static-php-cli'
         uses: actions/checkout@v4
         with:
           repository: crazywhalecc/static-php-cli
           ref: main
+
+      - name: Checkout current repository
+        if: github.repository != 'crazywhalecc/static-php-cli' && inputs.openssl1x == 'true'
+        uses: actions/checkout@v4
+        with:
+          path: ./repo  # 临时存放本仓库文件的目录
+          # 只拉取最新commit，减少不必要文件（可选）
+          fetch-depth: 1
+
+      - name: Inject patch files
+        if: inputs.openssl1x == 'true'
+        run: |
+          cp -f ./repo/src/SPC/builder/linux/library/openssl.php ./src/SPC/builder/linux/library/
+          cp -f ./repo/src/SPC/util/LicenseDumper.php ./src/SPC/util/
 
       - name: Generate hashed key for download cache
         run: |
@@ -123,6 +141,10 @@ jobs:
             echo "SPC_WITH_LIBS=--with-libs=${{ inputs.libs }}" >> $GITHUB_ENV
           fi
 
+          if [[ "${{ inputs.openssl1x }}" = "true" ]]; then
+            echo "SPC_CUSTOM_URL=--custom-url \"openssl:https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1w/openssl-1.1.1w.tar.gz\"" >> $GITHUB_ENV
+          fi
+
       - name: Check extensions and libs and try repair
         run: ${{ env.CMD }} doctor --auto-fix
 
@@ -137,6 +159,7 @@ jobs:
             --for-extensions=${{ inputs.extensions }} \
             ${{ env.SPC_BUILD_DEBUG }} \
             ${{ env.SPC_PRE_BUILT }} \
+            ${{ env.SPC_CUSTOM_URL }} \
             --retry=5
 
       # Run build command
