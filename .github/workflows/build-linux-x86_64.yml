@@ -1,4 +1,4 @@
-name: Build PHP on x86_64 linux-gun
+name: Build PHP on x86_64 linux-gnu
 
 on:
   workflow_dispatch:
@@ -70,7 +70,7 @@ jobs:
           ref: main
 
       - name: Checkout current repository
-        if: github.repository != 'crazywhalecc/static-php-cli' && inputs.openssl1x == 'true'
+        if: github.repository != 'crazywhalecc/static-php-cli' && inputs.openssl1x
         uses: actions/checkout@v4
         with:
           path: ./repo  # 临时存放本仓库文件的目录
@@ -78,7 +78,7 @@ jobs:
           fetch-depth: 1
 
       - name: Inject patch files
-        if: inputs.openssl1x == 'true'
+        if: github.repository != 'crazywhalecc/static-php-cli' && inputs.openssl1x
         run: |
           cp -f ./repo/src/SPC/builder/linux/library/openssl.php ./src/SPC/builder/linux/library/
           cp -f ./repo/src/SPC/util/LicenseDumper.php ./src/SPC/util/
@@ -142,7 +142,7 @@ jobs:
           fi
 
           if [[ "${{ inputs.openssl1x }}" = "true" ]]; then
-            echo "SPC_CUSTOM_URL=--custom-url \"openssl:https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1w/openssl-1.1.1w.tar.gz\"" >> $GITHUB_ENV
+            echo "SPC_CUSTOM_URL=--custom-url openssl:https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1w/openssl-1.1.1w.tar.gz" >> $GITHUB_ENV
           fi
 
       - name: Check extensions and libs and try repair
@@ -156,7 +156,7 @@ jobs:
           CACHE_API_EXEC=yes 
           ${{ env.CMD }} download \
             --with-php=${{ inputs.version }} \
-            --for-extensions=${{ inputs.extensions }} \
+            --for-extensions="${{ inputs.extensions }}" \
             ${{ env.SPC_BUILD_DEBUG }} \
             ${{ env.SPC_PRE_BUILT }} \
             ${{ env.SPC_CUSTOM_URL }} \
