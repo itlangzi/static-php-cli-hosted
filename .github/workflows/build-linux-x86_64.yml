@@ -23,21 +23,18 @@ on:
           - 'ubuntu-24.04'
           - 'ubuntu-22.04'
       build-targets:
-        description: "build target (comma separated, can be: cli,micro,fpm,embed,frankenphp)"
+        description: "build target (comma separated, can be: cli,micro,fpm)"
         required: true
         type: string
         default: 'cli,micro,fpm'
       extensions:
         description: extensions to compile (comma separated)
-        default: apcu,bcmath,calendar,ctype,curl,dba,dom,exif,fileinfo,filter,gd,iconv,intl,mbregex,mbstring,mysqli,mysqlnd,opcache,openssl,pcntl,pdo,pdo_mysql,pdo_pgsql,pdo_sqlite,pgsql,phar,posix,readline,redis,session,simplexml,sockets,sodium,sqlite3,tokenizer,uuid,xml,xmlreader,xmlwriter,xsl,zip,zlib
+        default: apcu,bcmath,bz2,calendar,ctype,curl,dom,exif,fileinfo,filter,gd,gettext,iconv,imap,intl,libxml,mbstring,mysqli,mysqlnd,opcache,openssl,pcntl,phar,posix,readline,session,shmop,simplexml,soap,sockets,sqlite3,tidy,tokenizer,xml,xmlreader,xmlwriter,xsl,zip,zlib
         required: true
-        type: string
-      override:
-        description: override the source from git or http (-G or -U)
         type: string
       libs:
         description: libs to compile (comma separated)
-        default: libavif
+        default: freetype,libavif,libjpeg,libwebp
         type: string
       prefer-pre-built:
         description: prefer pre-built binaries (reduce build time)
@@ -70,7 +67,7 @@ jobs:
 
       - name: Generate hashed key for download cache
         run: |
-          INPUT_HASH=$(echo "${{ runner.os }}-${{ inputs.version }}-${{ inputs.extensions }}-${{ inputs.libs }}-${{ inputs.build-targets }}-${{ inputs.override }}" | sha256sum | awk '{print $1}')
+          INPUT_HASH=$(echo "${{ runner.os }}-${{ inputs.version }}-${{ inputs.extensions }}-${{ inputs.libs }}-${{ inputs.build-targets }}" | sha256sum | awk '{print $1}')
           echo "INPUT_HASH=${INPUT_HASH}" >> $GITHUB_ENV
 
       # Cache downloaded source
@@ -140,7 +137,6 @@ jobs:
             --for-extensions=${{ inputs.extensions }} \
             ${{ env.SPC_BUILD_DEBUG }} \
             ${{ env.SPC_PRE_BUILT }} \
-            ${{ inputs.override }} \
             --retry=5
 
       # Run build command
