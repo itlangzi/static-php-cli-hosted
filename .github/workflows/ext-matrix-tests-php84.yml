@@ -2,8 +2,8 @@ name: "Extension matrix tests PHP 8.4"
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 1 * * 5"
+  # schedule:
+  #   - cron: "0 1 * * 5"
 
 jobs:
   test:

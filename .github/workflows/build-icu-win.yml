@@ -2,8 +2,8 @@ name: Build icu-static for x64-windows
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 0 * * 5"
+  # schedule:
+  #   - cron: "0 0 * * 5"
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

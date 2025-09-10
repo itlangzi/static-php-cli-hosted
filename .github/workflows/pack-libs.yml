@@ -2,18 +2,18 @@ name: PHP Pack Lib
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 0 * * 5"
-  release:
-    types:
-      - published
-  pull_request:
-    branches: [ "main" ]
-    paths:
-      - 'src/**'
-      - 'config/**'
-      - '.github/workflows/test-pack-lib.yml'
-      - 'bin/**'
+  # schedule:
+  #   - cron: "0 0 * * 5"
+  # release:
+  #   types:
+  #     - published
+  # pull_request:
+  #   branches: [ "main" ]
+  #   paths:
+  #     - 'src/**'
+  #     - 'config/**'
+  #     - '.github/workflows/test-pack-lib.yml'
+  #     - 'bin/**'
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
