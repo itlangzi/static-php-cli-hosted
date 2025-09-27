@@ -190,11 +190,7 @@ jobs:
 
           # Copy out from buildroot, because docker build has different permission
           mkdir -p tmp_dist/
-          [ -f "buildroot/bin/php" ] && cp buildroot/bin/php tmp_dist/                # cli
-          [ -f "buildroot/bin/micro.sfx" ] && cp buildroot/bin/micro.sfx tmp_dist/    # micro
-          [ -f "buildroot/bin/php-fpm" ] && cp buildroot/bin/php-fpm tmp_dist/        # fpm
-          [ -f "buildroot/bin/php-embed" ] && cp buildroot/bin/php-embed tmp_dist/    # embed
-          [ -f "buildroot/bin/frankenphp" ] && cp buildroot/bin/frankenphp tmp_dist/  # frankenphp
+          [ -f "buildroot/bin" ] && cp buildroot/bin/ tmp_dist/                #
           [ -f "buildroot/build-extensions.json" ] && cp buildroot/build-extensions.json tmp_dist/
           [ -f "buildroot/build-libraries.json" ] && cp buildroot/build-libraries.json tmp_dist/
 
