@@ -23,10 +23,10 @@ on:
           - 'ubuntu-24.04'
           - 'ubuntu-22.04'
       build-targets:
-        description: "build target (comma separated, can be: cli,micro,fpm)"
+        description: "build target (comma separated, can be: cli,micro,fpm,embed)"
         required: true
         type: string
-        default: 'cli,micro,fpm'
+        default: 'cli,micro,fpm,embed'
       extensions:
         description: extensions to compile (comma separated)
         default: apcu,bcmath,bz2,calendar,ctype,curl,dom,exif,fileinfo,filter,gd,gettext,iconv,imap,intl,libxml,mbstring,mysqli,mysqlnd,opcache,openssl,pcntl,phar,posix,readline,session,shmop,simplexml,soap,sockets,sqlite3,tidy,tokenizer,xml,xmlreader,xmlwriter,xsl,zip,zlib
@@ -55,7 +55,7 @@ on:
       openssl1x:
         description: use openssl 1.1.1w
         type: boolean
-        default: true
+        default: false
 
 jobs:
   build:
@@ -190,7 +190,8 @@ jobs:
 
           # Copy out from buildroot, because docker build has different permission
           mkdir -p tmp_dist/
-          [ -f "buildroot/bin" ] && cp buildroot/bin/ tmp_dist/                #
+          [ -f "buildroot/bin" ] && mkdir -p tmp_dist/bin && cp -r buildroot/bin/ tmp_dist/bin/
+          [ -f "buildroot/lib" ] && mkdir -p tmp_dist/lib && cp -r buildroot/lib/ tmp_dist/lib/
           [ -f "buildroot/build-extensions.json" ] && cp buildroot/build-extensions.json tmp_dist/
           [ -f "buildroot/build-libraries.json" ] && cp buildroot/build-libraries.json tmp_dist/
 
